@@ -134,7 +134,7 @@ function FlirtyChatbot() {
   const handleSend = async (text) => {
     if (text.trim() === "") return;
     try {
-      const res = await axios.post("http://localhost:5000/chat", {
+      const res = await axios.post("https://teddybackend.onrender.com/chat", {
         message: text,
       });
       const reply = res.data.reply;
