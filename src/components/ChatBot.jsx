@@ -90,45 +90,46 @@ function FlirtyChatbot() {
     }
   };
 
-  const speakResponse = (text) => {
-    if (speaking.current) return;
-    stopListening();
+const speakResponse = (text) => {
+  if (speaking.current) return;
+  stopListening();
 
-    const speech = new SpeechSynthesisUtterance(text);
-    speech.lang = "hi-IN";
-    speech.rate = 0.9; // **Smoother pace, not too slow**
-    speech.pitch = 0.4; // **Deep, attractive male voice**
-    speech.volume = 1;
+  const speech = new SpeechSynthesisUtterance(text);
+  speech.lang = "hi-IN";
+  speech.rate = 0.94; // **Slightly relaxed, natural pace**
+  speech.pitch = 1.2; // **Higher pitch for a youthful, sweet tone**
+  speech.volume = 1;
 
-    // Try selecting a more natural male voice
-    const voices = speechSynthesis.getVoices();
-    const maleVoice = voices.find(
-      (voice) => voice.name.includes("Male") || voice.name.includes("Deep")
-    );
-    if (maleVoice) {
-      speech.voice = maleVoice;
-    }
+  // Selecting a smooth, young male voice
+  const voices = speechSynthesis.getVoices();
+  const charmingVoice = voices.find(
+    (voice) => voice.lang.includes("hi-IN") && voice.name.includes("Male")
+  );
+  if (charmingVoice) {
+    speech.voice = charmingVoice;
+  }
 
-    speech.onstart = () => {
-      speaking.current = true;
-      setIsSpeaking(true);
-    };
-
-    speech.onend = () => {
-      speaking.current = false;
-      setIsSpeaking(false);
-      startListening();
-    };
-
-    speech.onerror = (event) => {
-      console.error("Speech Synthesis Error:", event.error);
-      speaking.current = false;
-      setIsSpeaking(false);
-      startListening();
-    };
-
-    window.speechSynthesis.speak(speech);
+  speech.onstart = () => {
+    speaking.current = true;
+    setIsSpeaking(true);
   };
+
+  speech.onend = () => {
+    speaking.current = false;
+    setIsSpeaking(false);
+    startListening();
+  };
+
+  speech.onerror = (event) => {
+    console.error("Speech Synthesis Error:", event.error);
+    speaking.current = false;
+    setIsSpeaking(false);
+    startListening();
+  };
+
+  window.speechSynthesis.speak(speech);
+};
+
 
 
   const handleSend = async (text) => {
